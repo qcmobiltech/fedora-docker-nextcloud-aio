@@ -109,3 +109,5 @@ nano compose.yaml
 10. Replace /media/data with your directory or disk of choice and save and exit the file!
 
 11. Run the file by typing sudo Docker compose up -d
+
+12. Expose docker in th fedora firewall 
