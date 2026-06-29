@@ -1,0 +1,24 @@
+services:
+  nextcloud-aio-mastercontainer:
+    image: nextcloud/all-in-one:latest
+    init: true
+    restart: always
+    container_name: nextcloud-aio-mastercontainer
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Mount the custom data directory to /mnt/ncdata inside the container
+      - /media/data:/mnt/ncdata
+    ports:
+      - 80:80
+      - 8080:8080
+      - 8443:8443
+    environment:
+      # CRITICAL: Set this to the internal mount path, not the host path
+      - NEXTCLOUD_DATADIR=/mnt/ncdata
+      # Optional: Adjust if running behind a reverse proxy
+      # - APACHE_PORT=11000
+      # - APACHE_IP_BINDING=127.0.0.1
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
