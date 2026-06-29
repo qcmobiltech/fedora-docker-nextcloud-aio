@@ -126,3 +126,11 @@ sudo firewall-cmd --permanent --zone=FedoraWorkstation --add-masquerade
 
 sudo firewall-cmd --reload
 
+15. Install Tailscale and login once you create a machine in your account, See their website for that it's pretty basic.
+curl -fsSL https://tailscale.com/install.sh | sh
+
+It will give you a url to login to talescale
+
+16. Then start tailscale
+sudo tailscale up
+
