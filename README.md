@@ -151,5 +151,24 @@ It will give you a url to login to talescale
 
 sudo tailscale up
 
-17. start serving on tailscale
+16. start serving on tailscale
 tailscale serve --bg http://127.0.0.1:11000
+
+17. edit nano /etc/systemd/system/tailscale-serve-nextcloud.service
+
+[Unit]
+Description=Serve Nextcloud backend through Tailscale
+After=network.target
+
+[Service]
+ExecStart=tailscale serve http://127.0.0.1:11000
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+
+18. now be sure its running and check it
+
+systemctl enable --now tailscale-serve-nextcloud.service
+
+tailscale serve status
