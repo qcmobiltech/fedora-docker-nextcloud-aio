@@ -1,4 +1,4 @@
-# fedora-docker-nextcloud-aio (using custom storage)
+# fedora-docker-nextcloud-aio (using custom storage) using tailscale for access outside your network
 Nextcloud Docker on Fedora 44 or greater (should work lower using proper repos)
 
 Start by downloading and installing Fedora 44 Server window.open <a href="https://fedoraproject.org/server/" target="_blank">here</a>
@@ -110,4 +110,19 @@ nano compose.yaml
 
 11. Run the file by typing sudo Docker compose up -d
 
-12. Expose docker in th fedora firewall 
+12. Next setup docker in fedoras firewall
+sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0
+
+sudo firewall-cmd --permanent --zone=FedoraWorkstation --add-masquerade
+
+sudo firewall-cmd --reload
+
+13. now install tailscale 
+
+14. Expose docker in the fedora firewall 
+sudo firewall-cmd --permanent --zone=trusted --add-interface=docker0
+
+sudo firewall-cmd --permanent --zone=FedoraWorkstation --add-masquerade
+
+sudo firewall-cmd --reload
+
