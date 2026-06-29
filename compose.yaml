@@ -13,6 +13,10 @@ services:
       - 80:80
       - 8080:8080
       - 8443:8443
++   dns:
++      - 100.100.100.100  # Tailscale Magic DNS
++      - 127.0.0.53       # Host's DNS resolver
++      - 1.1.1.1          # Fallback DNS
     environment:
       # CRITICAL: Set this to the internal mount path, not the host path
       - NEXTCLOUD_DATADIR=/mnt/ncdata
