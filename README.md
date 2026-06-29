@@ -93,7 +93,19 @@ docker compose version
 5. To gain non root access (Optional)
 sudo usermod -aG docker $USER
 
-6. Start with your compose.yaml
+6. Create a directory to store your compose.yaml file
+mkdir nextcloud-aio-install
 
-Now download the compose from this repo and just modify it for the mounted directory your planning to use. For this example im using /media/data
+7. Now navigate to nextcloud-aio-install
+cd nextcloud-aio-install
 
+8. Now download the compose.yaml from this repo and just modify it for the mounted directory your planning to use. For this example i'm using /media/data.
+
+wget https://raw.githubusercontent.com/qcmobiltech/fedora-docker-nextcloud-aio/refs/heads/main/compose.yaml
+
+9. Edit the file using nano
+nano compose.yaml
+
+10. Replace /media/data with your directory or disk of choice and save and exit the file!
+
+11. Run the file by typing sudo Docker compose up -d
