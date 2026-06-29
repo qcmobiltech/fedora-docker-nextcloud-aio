@@ -134,3 +134,5 @@ It will give you a url to login to talescale
 16. Then start tailscale
 sudo tailscale up
 
+17. start serving on tailscale
+tailscale serve --bg http://127.0.0.1:11000
