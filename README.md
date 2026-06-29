@@ -3,7 +3,7 @@ Nextcloud Docker on Fedora 44 or greater (should work lower using proper repos)
 
 Start by downloading and installing Fedora 44 Server window.open <a href="https://fedoraproject.org/server/" target="_blank">here</a>
 
-once installed it should have all the basics like wget ssh etc! configure ssh to your custom port rather than the default for best security!
+Once installed it should have all the basics like wget ssh etc! configure ssh to your custom port rather than the default for best security!
 
 SSH Configuration
 
@@ -33,3 +33,67 @@ sudo systemctl restart sshd.service
 
 8. Finalize settings
 ssh -p 2222 (userid@server-ip)
+
+
+A. Install Fail2Ban
+sudo dnf install fail2ban fail2ban-firewalld
+
+sudo systemctl enable --now fail2ban firewalld
+
+B. Create a local configuration file at /etc/fail2ban/jail.d/local.conf to define the SSH jail with your custom port
+sudo nano /etc/fail2ban/jail.d/local.conf
+
+C. Add the following configuration to the file
+[DEFAULT]
+backend = systemd
+bantime = 3600
+findtime = 600
+maxretry = 5
+ignoreip = 127.0.0.1/8 ::1
+
+[sshd]
+enabled = true
+port = 2926
+backend = systemd
+maxretry = 5
+findtime = 600
+bantime = 3600
+
+D. Validate the configuration and restart Fail2ban to apply the changes
+sudo fail2ban-client -t
+
+sudo systemctl restart fail2ban
+
+E. Verify that the sshd jail is active and monitoring the correct port using
+sudo fail2ban-client status sshd
+
+F. Ensure that your Firewalld zone allows traffic on port 2926 for SSH to function correctly
+sudo firewall-cmd --zone=FedoraWorkstation --add-port=2926/tcp --permanent
+
+sudo firewall-cmd --reload
+
+1. Finally we can Start with installing Docker(Doesn't sjip in fedora repos have to add docker repo)
+sudo dnf install -y dnf-plugins-core
+
+sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+
+2. Install Docker CE Install the engine, CLI, containerd, and the Compose plugin
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+3. Start and Enable Docker Start the daemon and configure it to launch at boot
+sudo systemctl enable --now docker
+
+sudo systemctl status docker
+
+4. Verify Installation by checking the versions
+docker --version
+
+docker compose version
+
+5. To gain non root access (Optional)
+sudo usermod -aG docker $USER
+
+6. Start with your compose.yaml
+
+Now download the compose from this repo and just modify it for the mounted directory your planning to use. For this example im using /media/data
+
