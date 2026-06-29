@@ -18,7 +18,7 @@ services:
       - NEXTCLOUD_DATADIR=/mnt/ncdata
       # Optional: Adjust if running behind a reverse proxy
       # - APACHE_PORT=11000
-      # - APACHE_IP_BINDING=127.0.0.1
+      # - APACHE_IP_BINDING=0.0.0.0
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
